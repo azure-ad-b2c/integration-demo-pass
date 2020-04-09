@@ -1,0 +1,193 @@
+@charset "utf-8";
+
+.wrapper {opacity: 1 !important;}
+
+.iz_index {width:1100px; margin:0 auto; letter-spacing:-0.05em;}
+.iz_index button {cursor:pointer; vertical-align:top;}
+.iz_index .main_top {width:1100px; margin:0 auto;}
+.iz_index .main_top::after {content:""; display:block; height:0; clear:both;}
+.iz_index .main_top .bnr_wrap {display:inline; float:left; position:relative; width:800px; height:340px; background-color:#4858EB; border-radius:1px;/*  animation:bnr_wrap 0.4s linear 1; */ overflow:hidden;}
+/* @keyframes bnr_wrap {
+	0% {transform:translateX(0px);}
+	40% {transform:translateX(-20px);}
+	80% {transform:translateX(5px);}
+	100% {transform:translateX(0px);}
+} */
+
+.iz_index .main_top .bnr_wrap .arrow {position:absolute; top:250px; left:62px; width:72.8px; animation-name: icon-new-wiggle2; animation-duration: 2s; animation-iteration-count: infinite; animation-delay:0.5s}
+@keyframes icon-new-wiggle2 {
+	0% {transform: translateX(0px);}
+	5% {transform: translateX(10px);}
+	15% {transform: translateX(0px);}
+	20% {transform: translateX(10px);}
+	30% {transform: translateX(0px);}
+}
+.iz_index .main_top .bnr_wrap img {vertical-align:top;}
+.iz_index .main_top .bnr_wrap > div {transition: all 100ms ease-in-out;}
+.iz_index .main_top .bnr_wrap div.txt1 {position:absolute; top:60px; left:62px; width:192px;}
+.iz_index .main_top .bnr_wrap div.txt2 {position:absolute; top:182px; left:62px; width:222px;}
+.iz_index .main_top .bnr_wrap div.img {position:absolute; top:18px; right:70px; width:252px;}
+.iz_index .main_top .bnr_wrap:hover div.txt1 {transform: translateX(5px);}
+.iz_index .main_top .bnr_wrap:hover div.txt2 {transform: translateX(10px);}
+.iz_index .main_top .bnr_wrap:hover div.img {transform: translateY(-5px);}
+
+.iz_index .main_top .login_wrap {display:inline; position:relative; float:right; width:280px; height:340px;
+/* animation-name: login_wrap;
+animation-duration:0.4s;
+animation-direction:1;
+animation-delay:0.3s; */
+}
+/* @keyframes login_wrap {
+	0% {transform:translateX(0px);}
+	40% {transform:translateX(20px);}
+	80% {transform:translateX(-5px);}
+	100% {transform:translateX(0px);}	
+} */
+
+.iz_index .main_top .login_wrap button {border:0 none; padding:0;}
+.iz_index .main_top .login_wrap .login_before {}
+
+/* 간편로그인 수정 */
+.iz_index .main_top .login_wrap .login_before {position:absolute; top:0; left:0; top:40%; transform:translateY(-50%);}
+/* 간편로그인 수정 끝 */
+
+.iz_index .main_top .login_wrap .login_before div.tit {height:36px; font-size:1.5em; line-height:36px; font-weight:bold;}
+.iz_index .main_top .login_wrap .login_before p.txt {color:#666; font-size:1em;}
+.iz_index .main_top .login_wrap .login_before div.form {margin-top:10px;}
+.iz_index .main_top .login_wrap .find_wrap {position:relative; height:18px; margin-top:20px; overflow:hidden; text-align:right; color:#999;}
+.iz_index .main_top .login_wrap .find_wrap * {vertical-align:top;}
+.iz_index .main_top .login_wrap .find_wrap label {position:absolute; top:0; left:0; padding-left:3px; color:#666; line-height:18px;}
+.iz_index .main_top .login_wrap .find_wrap label input[type="checkbox"] {position:absolute; top:0; left:-100px;}
+.iz_index .main_top .login_wrap .find_wrap label input[type="checkbox"] + span.checkmark {display:inline-block; width:18px; height:18px; background:url('../img/main/login_checkmark.png') no-repeat left bottom; border-radius:1px; transition: all 100ms ease-in-out;}
+.iz_index .main_top .login_wrap .find_wrap label input[type="checkbox"]:checked + span.checkmark {background-position:left top;}
+.iz_index .main_top .login_wrap .find_wrap label span.txt {padding-left:5px; color:#666; font-size:12px;}
+.iz_index .main_top .login_wrap .find_wrap button {position:relative; background-color:rgba(255,255,255,0); color:#999; font-size:10px; line-height:18px;}
+.iz_index .main_top .login_wrap .find_wrap button + button::before {content:"·"; margin:0 5px;}
+.iz_index .main_top .login_wrap .find_wrap button::after {content:""; display:block; position:absolute; bottom:0; right:0; width:0; border-bottom:1px solid #ccc; transition: all 50ms ease-in-out;}
+.iz_index .main_top .login_wrap .find_wrap button:hover::after {width:20px;}
+.iz_index .main_top .login_wrap .btn_wrap {margin-top:24px;}
+.iz_index .main_top .login_wrap .btn_wrap button {transition: all 100ms ease-in-out; border-radius:1px;}
+.iz_index .main_top .login_wrap .btn_wrap button * {vertical-align:top;}
+.iz_index .main_top .login_wrap .btn_wrap button:hover {box-shadow:0px 3px 7px rgba(0,0,0,0.4); transform: translateY(-2px);}
+.iz_index .main_top .login_wrap .btn_wrap button span {display:block;}
+.iz_index .main_top .login_wrap .btn_wrap button + button {margin-top:10px;}
+
+
+
+/* 로그인 전 */
+.iz_index .main_top .login_wrap .login_before input[type="text"],
+.iz_index .main_top .login_wrap .login_before input[type="password"] {box-sizing:border-box; position:relative; width:100%; height:50px; padding:0 23px; background-color:#fff; border:0 none; line-height:50px; transition: all 100ms ease-in-out;}
+.iz_index .main_top .login_wrap .login_before input[type="text"]::placeholder,
+.iz_index .main_top .login_wrap .login_before input[type="password"]::placeholder {position:absolute; top:0; left:0; height:inherit; line-height:inherit; color:#bbb; font-size:12px;}
+.iz_index .main_top .login_wrap .login_before input[type="text"]:hover,
+.iz_index .main_top .login_wrap .login_before input[type="password"]:hover {box-shadow:1px 2px 7px rgba(0,0,0,0.05); transform: translateY(-2px);}
+
+
+
+/* 로그인 후 */
+.login_after {padding-top:10px;}
+.login_after .user {display:table; position:relative; width:100%; vertical-align:middle;}
+.login_after .user .thum_wrap {display:table-cell; position:relative; width:90px; height:90px;}
+.login_after .user .thum_wrap .thum {width:96px; height:96px; min-width:96px; background-color:#fff; overflow:hidden; border-radius:100%;}
+.login_after .user .thum_wrap .thum:hover img {transform:scale(1.05);}
+.login_after .user .thum_wrap button.set {position:absolute; right:0; bottom:0; width:30px; height:30px; border-radius:100%; overflow:hidden;}
+.login_after .user .thum_wrap button.set:hover {transform:rotate(360deg); transition: all 300ms ease-in-out;}
+.login_after .user .info {display:table-cell; width:auto; padding-left:20px; vertical-align:middle; background-color:rgba(255,255,255,0);}
+.login_after .user .info .name {padding-bottom:8px; color:#444; font-size:24px;}
+.login_after .user .info .name em {font-style:normal;}
+.login_after .user .info .co,
+.login_after .user .info .phone {margin-top:2px; color:#666; font-size:12px;}
+.login_after > ul {margin-top:23px;}
+.login_after > ul li {position:relative; height:50px; padding-left:66px;}
+.login_after > ul li div.icon {position:absolute; left:13px; top:5px; width:40px;}
+/* .login_after > ul li:hover div.icon {animation-name: icon-new-wiggle; animation-duration: 3s; animation-iteration-count: infinite;} */
+/* @keyframes icon-new-wiggle {
+	0% {transform: translateX(2px);}
+	4% {transform: translateX(-1px);}
+	8% {transform: translateX(2px);}
+	12% {transform: translateX(-1px);}
+	16% {transform: translateX(2px);}
+	20% {transform: translateX(0px);}
+} */
+
+.login_after > ul li dl {display:table; width:100%;}
+.login_after > ul li dl dt, 
+.login_after > ul li dl dd {display:table-cell; line-height:50px;}
+.login_after > ul li dl dt {color:#222; font-size:14px;}
+.login_after > ul li dl dd {padding-right:20px; color:#4858eb; font-size:18px; text-align:right;}
+.login_after > ul li dl dd span {font-weight:bold;}
+.login_after > ul li + li dl {border-top:1px solid #fff ;}
+.login_after .logout {display:block; width:100%; height:56px; margin-top:5px; background-color:#fff; transition: all 100ms ease-in-out;}
+.login_after .logout:hover {box-shadow:1px 2px 7px rgba(0,0,0,0.05); transform: translateY(-2px);}
+
+
+
+/* 메인 컨텐츠1 */
+.iz_index .main_content {box-sizing:border-box; width:1100px; height:552px; margin:28px auto 0; padding:70px 0; background-color:#fff;  border-radius:1px; text-align:center;
+/* animation-name: main_content;
+animation-duration: 0.4s;
+animation-direction:1;
+animation-delay:0.6s; */
+}
+
+/* @keyframes main_content {
+	0% {transform: translateY(0px);}
+	40% {transform: translateY(20px);}
+	80% {transform: translateY(-5px);}
+	100% {transform: translateY(0px);}
+} */
+.main_content > div.tit {color:#444; font-size:32px; font-weight:500; text-align:center; line-height:1.5;}
+.main_content > p {margin-top:10px; color:#999; font-size:16px; font-weight:500; text-align:center; line-height:1.5;}
+.main_content ul {box-sizing:border-box; display:inline-block; margin:60px auto 0;}
+.main_content ul:after {content:""; display:block; height:0; clear:both;}
+.main_content ul li {display:inline-block; float:left; width:204px; margin-left:7px;}
+
+.main_content ul li:first-child {margin-left:0;}
+.main_content ul li div.thum {width:153px; height:153px; margin:0 auto; border-radius:100%; border-radius:100%; overflow:hidden;}
+.main_content ul li div.thum img {display:block; width:100%; height:100%; }
+.main_content ul li p {transition: all 150ms ease-in-out;}
+/* .main_content ul li:hover div.thum {position:relative; border:1px solid rgba(0,0,0,0.13); box-shadow:0px 3px 20px rgba(0,0,0,0.05); transform: translateY(-2px);} */
+/* .main_content ul li:hover div.thum img {transition: all 300ms ease-in-out;transform:scale(1.05) rotate(360deg);} */
+.main_content ul li:hover p {transform:translateY(-3px); text-shadow:0 6px 3px rgba(0,0,0,0.07);}
+.main_content ul li div.thum + p {margin-top:30px; font-weight:600; font-size:18px; text-align:center;}
+.main_content ul li p + p {margin-top:6px; font-size:12px; line-height:18px;}
+.main_content ul li p span {display:block; text-align:center; color:#999;}
+
+
+
+/* 메인 컨텐츠2 */
+.main_footer {box-sizing:border-box; position:relative; width:1100px; margin:0 auto; padding:100px 60px 131px;}
+.main_footer div.tit {height:24px; color:#999; font-size:16px; line-height:24px;}
+.main_footer p.txt {margin-top:10px; padding:4px 0; font-size:32px; line-height:36px; font-weight:500;}
+.main_footer .store {position:absolute; top:158px; right:147px;}
+.main_footer .store button {float:left; width:170px; margin:0; padding:0; border:0; vertical-align:top;}
+.main_footer .store button img {max-width:100%; vertical-align:top;}
+.main_footer .store button + button {margin-left:20px;}
+
+
+
+
+/* 메인 로그인 레이어 팝업 */
+.main_dim {display:none; position:fixed; top:0; right:0; bottom:0; left:0; background-color:rgba(0,0,0,0.5); z-index:11}
+
+.layer_login {display:none; box-sizing:border-box; position:fixed; top:50%; left:50%; width:524px; height:580px; margin:-290px 0 0 -262px; padding:0 45px 45px; background-color: #fff; box-shadow:0 0 15px rgba(0,0,0,0.2); z-index:12;
+animation-name: layer_login;
+animation-direction: 1;
+animation-duration: 0.3s;
+}
+@keyframes layer_login {
+	0% {transform:translateY(100px); opacity:0;}
+	80% {transform:translateY(-20px);}
+	100% {transform:translateY(0); opacity:1;}
+}
+.layer_login div.tit_wrap {text-align:center; padding-bottom:62px;}
+.layer_login div.tit_wrap div.tit {padding-top:66px; color:#aaa; line-height:29px; font-size:20px;}
+.layer_login div.tit_wrap img {margin-top:5px;}
+.layer_login div.tit_wrap p {margin-top:35px; color:#222; line-height:24px;}
+.layer_login button {border:0; background-color:rgba(255,255,255,0);}
+.layer_login button img {vertical-align:top;}
+.layer_login button.close {position:absolute; top:30px; right:30px; width:25px; height:25px;}
+.layer_login .layer_btn_group button{transition: all 100ms ease-in-out;}
+.layer_login .layer_btn_group button:hover {transform:translateX(5px); box-shadow:-3px 0px 3px rgba(0,0,0,0.2); cursor:pointer;}
+.layer_login .layer_btn_group button + button {margin-top:10px;}
+.layer_login p.or {color:#222; font-size:12px; text-align:center; line-height:40px;}

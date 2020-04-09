@@ -1,0 +1,115 @@
+name: Deploy Azure AD B2C Policies and Configuration
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  B2C_SERVICE_PRINCIPAL_CLIENT_ID: "GUID"
+
+jobs:
+  build-and-deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Read appsettings.json
+      id: get_appsettings
+      uses: juliangruber/read-file-action@v1
+      with:
+        path: ./policies/appsettings.json
+    - name: Get policy settings from appsettings.json
+      id: parse_appsettings
+      uses: gr2m/get-json-paths-action@v1.x
+      with:
+        json: ${{ steps.get_appsettings.outputs.content }}
+        Production: "Environments[0].Production"
+        Tenant: "Environments[0].Tenant"
+        PolicyPrefix: "Environments[0].PolicySettings.PolicyPrefix"
+        DeploymentMode: "Environments[0].PolicySettings.DeploymentMode"
+        DeveloperMode: "Environments[0].PolicySettings.DeveloperMode"
+        AppInsightsInstrumentationKey: "Environments[0].PolicySettings.AppInsightsInstrumentationKey"
+        IdentityExperienceFrameworkAppId: "Environments[0].PolicySettings.IdentityExperienceFrameworkAppId"
+        ProxyIdentityExperienceFrameworkAppId: "Environments[0].PolicySettings.ProxyIdentityExperienceFrameworkAppId"
+        FacebookClientId: "Environments[0].PolicySettings.FacebookClientId"
+        FacebookClientSecretKeyContainer: "Environments[0].PolicySettings.FacebookClientSecretKeyContainer"
+        PassDisplayName: "Environments[0].PolicySettings.PassDisplayName"
+        PassDescription: "Environments[0].PolicySettings.PassDescription"
+        PassClientId: "Environments[0].PolicySettings.PassClientId"
+        PassClientSecretKeyContainer: "Environments[0].PolicySettings.PassClientSecretKeyContainer"
+        PassAuthEndpoint: "Environments[0].PolicySettings.PassAuthEndpoint"
+        PassTokenEndpoint: "Environments[0].PolicySettings.PassTokenEndpoint"
+        PassClaimsEndpoint: "Environments[0].PolicySettings.PassClaimsEndpoint"
+        PassClaimsDecryptionEndpoint: "Environments[0].PolicySettings.PassClaimsDecryptionEndpoint"
+
+    - name: Replace tokens in B2C policies
+      uses: cschleiden/replace-tokens@v1.0
+      with:
+        tokenPrefix: "{Settings:"
+        tokenSuffix: "}"
+        files: "policies/*.xml"
+      env:
+        Production: ${{ steps.parse_appsettings.outputs.Production }}
+        Tenant: ${{ steps.parse_appsettings.outputs.Tenant }}
+        PolicyPrefix: ${{ steps.parse_appsettings.outputs.PolicyPrefix }}
+        DeploymentMode: ${{ steps.parse_appsettings.outputs.DeploymentMode }}
+        DeveloperMode: ${{ steps.parse_appsettings.outputs.DeveloperMode }}
+        AppInsightsInstrumentationKey: ${{ steps.parse_appsettings.outputs.AppInsightsInstrumentationKey }}
+        IdentityExperienceFrameworkAppId: ${{ steps.parse_appsettings.outputs.IdentityExperienceFrameworkAppId }}
+        ProxyIdentityExperienceFrameworkAppId: ${{ steps.parse_appsettings.outputs.ProxyIdentityExperienceFrameworkAppId }}
+        FacebookClientId: ${{ steps.parse_appsettings.outputs.FacebookClientId }}
+        FacebookClientSecretKeyContainer: ${{ steps.parse_appsettings.outputs.FacebookClientSecretKeyContainer }}
+        PassDisplayName: ${{ steps.parse_appsettings.outputs.PassDisplayName }}
+        PassDescription: ${{ steps.parse_appsettings.outputs.PassDescription }}
+        PassClientId: ${{ steps.parse_appsettings.outputs.PassClientId }}
+        PassClientSecretKeyContainer: ${{ steps.parse_appsettings.outputs.PassClientSecretKeyContainer }}
+        PassAuthEndpoint: ${{ steps.parse_appsettings.outputs.PassAuthEndpoint }}
+        PassTokenEndpoint: ${{ steps.parse_appsettings.outputs.PassTokenEndpoint }}
+        PassClaimsEndpoint: ${{ steps.parse_appsettings.outputs.PassClaimsEndpoint }}
+        PassClaimsDecryptionEndpoint: ${{ steps.parse_appsettings.outputs.PassClaimsDecryptionEndpoint }}
+        
+    - name: Upload Facebook Client Secret
+      uses: azure-ad-b2c/deploy-trustframework-keyset-secret@v1
+      with:
+        name: ${{ steps.parse_appsettings.outputs.FacebookClientSecretKeyContainer }}
+        value: ${{ secrets.FACEBOOK_CLIENT_SECRET }}
+        tenant: ${{ steps.parse_appsettings.outputs.Tenant }}
+        clientId: ${{ env.B2C_SERVICE_PRINCIPAL_CLIENT_ID }}
+        clientSecret: ${{ secrets.B2C_SERVICE_PRINCIPAL_CLIENT_SECRET }}
+    - name: Upload PASS Client Secret
+      uses: azure-ad-b2c/deploy-trustframework-keyset-secret@v1
+      with:
+        name: ${{ steps.parse_appsettings.outputs.PassClientSecretKeyContainer }}
+        value: ${{ secrets.PASS_CLIENT_SECRET }}
+        tenant: ${{ steps.parse_appsettings.outputs.Tenant }}
+        clientId: ${{ env.B2C_SERVICE_PRINCIPAL_CLIENT_ID }}
+        clientSecret: ${{ secrets.B2C_SERVICE_PRINCIPAL_CLIENT_SECRET }}
+
+    - name: Upload TrustFrameworkBase Policy
+      uses: azure-ad-b2c/deploy-trustframework-policy@v1
+      with:
+        file: "policies/TrustFrameworkBase.xml"
+        policy: ${{ steps.parse_appsettings.outputs.PolicyPrefix }}TrustFrameworkBase
+        tenant: ${{ steps.parse_appsettings.outputs.Tenant }}
+        clientId: ${{ env.B2C_SERVICE_PRINCIPAL_CLIENT_ID }}
+        clientSecret: ${{ secrets.B2C_SERVICE_PRINCIPAL_CLIENT_SECRET }}
+    - name: Upload TrustFrameworkExtensions Policy
+      uses: azure-ad-b2c/deploy-trustframework-policy@v1
+      with:
+        file: "policies/TrustFrameworkExtensions.xml"
+        policy: ${{ steps.parse_appsettings.outputs.PolicyPrefix }}TrustFrameworkExtensions
+        tenant: ${{ steps.parse_appsettings.outputs.Tenant }}
+        clientId: ${{ env.B2C_SERVICE_PRINCIPAL_CLIENT_ID }}
+        clientSecret: ${{ secrets.B2C_SERVICE_PRINCIPAL_CLIENT_SECRET }}
+    - name: Upload SignUpOrSignin Policy
+      uses: azure-ad-b2c/deploy-trustframework-policy@v1
+      with:
+        file: "policies/SignUpOrSignin.xml"
+        policy: ${{ steps.parse_appsettings.outputs.PolicyPrefix }}signup_signin
+        tenant: ${{ steps.parse_appsettings.outputs.Tenant }}
+        clientId: ${{ env.B2C_SERVICE_PRINCIPAL_CLIENT_ID }}
+        clientSecret: ${{ secrets.B2C_SERVICE_PRINCIPAL_CLIENT_SECRET }}

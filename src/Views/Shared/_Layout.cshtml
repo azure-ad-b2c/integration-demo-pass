@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+    <head>
+    <title>carmanager</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" onload="this.rel='stylesheet'" href="~/css/reset.css">
+    <link rel="preload" as="style" onload="this.rel='stylesheet'" href="~/css/animate.css">
+    <link rel="preload" as="style" onload="this.rel='stylesheet'" href="~/css/font.css">
+    <link rel="preload" as="style" onload="this.rel='stylesheet'" href="~/css/common.css">
+    <link rel="preload" as="style" onload="this.rel='stylesheet'" href="~/css/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    @RenderSection("styles", required: false)
+</head>
+<body>
+
+<div class="wrapper" style="opacity: 0;">
+
+    <div class="header_wrap">
+        <div class="header">
+            <h1 class="logo"><img src="~/img/common/logo.png" alt="차 잘 팔고 싶다면 카매니저" /></h1>
+            <ul class="gnb">
+                <li><a href="#g">매물조회</a></li>
+                <li><a href="#g">가격조회</a></li>
+                <li><a href="#g">확인서비스</a></li>
+                <li><a href="#g">상사매물관리</a></li>
+                <li><a href="#g">마이페이지</a></li>
+                <li><a href="#g">수출조회</a></li>
+            </ul>
+            <ul class="jnb">
+                <li><a href="#g">로그인</a></li>
+                <li><a href="#g">즐겨찾기 추가</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        @RenderBody()
+    </div><!-- // container -->
+
+
+
+    <div class="footer_wrap">
+        <div class="footer">
+            <h1><img src="~/img/common/footer.png" alt="카매니저"></h1>
+            <div class="info">
+                <span>주식회사 비즈인포그룹</span>
+                <span>사업자등록번호 140-81-22581</span>
+                <span>통신판매업신고번호 : 제2011-서울서초-1080</span>
+                <span>대표 함석필</span>
+            </div>
+            <div class="info">
+                <span>서울특별시 강남구 봉은사로 449 밤부타워 F9,F10</span>
+                <span>02-3474-3060</span>
+                <span>고객문의 cs@bizinfogroup.co.kr</span>
+                <span>copyright 2020 Business Info Group Inc. All rights reserved.</span>
+            </div>
+            <div class="link">
+                <a href="#g">제휴제안</a>
+                <a href="#g">이용약관</a>
+                <a href="#g">개인정보취급방침</a>
+                <a href="#g">사이트맵</a>
+                <a href="#g">원격지원요청</a>
+            </div>
+        </div><!-- // footer -->
+    </div><!-- // footer_wrap -->
+
+</div><!-- // wrapper -->
+
+@RenderSection("scripts", required: false)
+
+</body>
+</html>
