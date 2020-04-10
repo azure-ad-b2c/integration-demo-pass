@@ -9,7 +9,7 @@ env:
   AZURE_WEBAPP_NAME: b2c-pass-demo
   AZURE_WEBAPP_SOURCE: './src'
   DOTNET_VERSION: '3.1.100'
-  DEMO_APP_CLIENT_ID: 01622107-38b3-4a2c-9701-526641cdfdcf
+  DEMO_APP_CLIENT_ID: 1d4f39cb-abc2-4f12-90c6-13a2ff5ef99b
 
 jobs:
   build-and-deploy:

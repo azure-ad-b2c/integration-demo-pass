@@ -1,5 +1,5 @@
 @section styles {
-    <link rel="preload" as="style" onload="this.rel='stylesheet'" href="~/css/auth.css">
+    <link rel="stylesheet" href="~/css/auth.css">
 }
 
 <div class="iz_index">
@@ -69,21 +69,12 @@
     <div class="tit_wrap">
         <div class="tit">차 잘 팔고 싶다면</div>
         <img src="~/img/main/carmanager_logo.png" alt="카매니저" />
-        @* <p>카매니저. 소셜로그인으로 간편하게 시작하세요.</p> *@
     </div>
 
     <div id="api">
         @* Azure AD B2C content will be injected here *@
     </div>
-
-    @* <div class="layer_btn_group">
-        <button type="button"><img src="~/img/main/layer_login_btn1.png" alt="PASS 휴대폰번호 로그인" /></button>
-    </div>
-    <p class="or">또는</p>
-    <div class="layer_btn_group">
-        <button type="button"><img src="~/img/main/layer_login_btn2.png" alt="Micorsoft로 로그인" /></button>
-        <button type="button"><img src="~/img/main/layer_login_btn3.png" alt="Facebook 로그인" /></button>
-        <button type="button"><img src="~/img/main/layer_login_btn4.png" alt="GOOGLE 로그인" /></button>
-    </div>
-    <button class="close"><img src="~/img/main/btn_layer_close.png" alt="닫기" /></button> *@
-</div
+    <form action='@Url.ActionLink("Index")' method="get">
+        <button class="close"><img src="~/img/main/btn_layer_close.png" alt="닫기" /></button>
+    </form>
+</div>

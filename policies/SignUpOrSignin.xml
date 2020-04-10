@@ -11,8 +11,11 @@
   <RelyingParty>
     <DefaultUserJourney ReferenceId="SignUpOrSignIn-Pass" />
     <UserJourneyBehaviors>
-      <SingleSignOn Scope="Tenant" KeepAliveInDays="7" />
+      <SingleSignOn Scope="Policy" KeepAliveInDays="7" EnforceIdTokenHintOnLogout="true" />
       <JourneyInsights TelemetryEngine="ApplicationInsights" InstrumentationKey="{Settings:AppInsightsInstrumentationKey}" DeveloperMode="{Settings:DeveloperMode}" ClientEnabled="true" ServerEnabled="true" TelemetryVersion="1.0.0" />
+      <ContentDefinitionParameters>
+        <Parameter Name="culture">{Culture:RFC5646}</Parameter>
+      </ContentDefinitionParameters>
     </UserJourneyBehaviors>
     <TechnicalProfile Id="PolicyProfile">
       <DisplayName>PolicyProfile</DisplayName>
@@ -22,7 +25,7 @@
         <OutputClaim ClaimTypeReferenceId="givenName" />
         <OutputClaim ClaimTypeReferenceId="surname" />
         <OutputClaim ClaimTypeReferenceId="email" />
-        <OutputClaim ClaimTypeReferenceId="strongAuthenticationPhoneNumber" PartnerClaimType="phone" />
+        <OutputClaim ClaimTypeReferenceId="telephoneNumber" />
         <OutputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="sub"/>
         <OutputClaim ClaimTypeReferenceId="identityProvider" />
         <OutputClaim ClaimTypeReferenceId="tenantId" AlwaysUseDefaultValue="true" DefaultValue="{Policy:TenantObjectId}" />

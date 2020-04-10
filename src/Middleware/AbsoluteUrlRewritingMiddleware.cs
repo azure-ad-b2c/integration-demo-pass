@@ -15,12 +15,12 @@ namespace B2C.PASSDemo.Middleware
     {
         public static IApplicationBuilder UseAbsoluteUrlRewriting(this IApplicationBuilder app)
         {
-            app.UseWhen(context => {
-                var metadata =  context.GetEndpoint()?.Metadata
-                    .GetMetadata<EnableAbsoluteUrlRewritingAttribute>();
-                return metadata != null;
-            }, a => a.Use(ConvertToAbsoluteUrls));
-            return app;
+            return app.UseWhen(IsAbsoluteUrlRewritingAttributePresent, a => a.Use(ConvertToAbsoluteUrls));
+        }
+
+        private static bool IsAbsoluteUrlRewritingAttributePresent(HttpContext context) {
+            return context.GetEndpoint()?.Metadata
+                .GetMetadata<EnableAbsoluteUrlRewritingAttribute>() != null;
         }
 
         private static async Task ConvertToAbsoluteUrls(HttpContext context, Func<Task> next)

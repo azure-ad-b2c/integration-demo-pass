@@ -6,7 +6,7 @@ on:
       - master
 
 env:
-  B2C_SERVICE_PRINCIPAL_CLIENT_ID: "GUID"
+  B2C_SERVICE_PRINCIPAL_CLIENT_ID: "93dccd52-34c5-4f81-8582-8ec5128c57c7"
 
 jobs:
   build-and-deploy:
@@ -37,6 +37,10 @@ jobs:
         ProxyIdentityExperienceFrameworkAppId: "Environments[0].PolicySettings.ProxyIdentityExperienceFrameworkAppId"
         FacebookClientId: "Environments[0].PolicySettings.FacebookClientId"
         FacebookClientSecretKeyContainer: "Environments[0].PolicySettings.FacebookClientSecretKeyContainer"
+        GoogleClientId: "Environments[0].PolicySettings.GoogleClientId"
+        GoogleClientSecretKeyContainer: "Environments[0].PolicySettings.GoogleClientSecretKeyContainer"
+        MicrosoftAccountClientId: "Environments[0].PolicySettings.MicrosoftAccountClientId"
+        MicrosoftAccountClientSecretKeyContainer: "Environments[0].PolicySettings.MicrosoftAccountClientSecretKeyContainer"
         PassDisplayName: "Environments[0].PolicySettings.PassDisplayName"
         PassDescription: "Environments[0].PolicySettings.PassDescription"
         PassClientId: "Environments[0].PolicySettings.PassClientId"
@@ -63,6 +67,10 @@ jobs:
         ProxyIdentityExperienceFrameworkAppId: ${{ steps.parse_appsettings.outputs.ProxyIdentityExperienceFrameworkAppId }}
         FacebookClientId: ${{ steps.parse_appsettings.outputs.FacebookClientId }}
         FacebookClientSecretKeyContainer: ${{ steps.parse_appsettings.outputs.FacebookClientSecretKeyContainer }}
+        GoogleClientId: ${{ steps.parse_appsettings.outputs.GoogleClientId }}
+        GoogleClientSecretKeyContainer: ${{ steps.parse_appsettings.outputs.GoogleClientSecretKeyContainer }}
+        MicrosoftAccountClientId: ${{ steps.parse_appsettings.outputs.MicrosoftAccountClientId }}
+        MicrosoftAccountClientSecretKeyContainer: ${{ steps.parse_appsettings.outputs.MicrosoftAccountClientSecretKeyContainer }}
         PassDisplayName: ${{ steps.parse_appsettings.outputs.PassDisplayName }}
         PassDescription: ${{ steps.parse_appsettings.outputs.PassDescription }}
         PassClientId: ${{ steps.parse_appsettings.outputs.PassClientId }}
@@ -77,6 +85,22 @@ jobs:
       with:
         name: ${{ steps.parse_appsettings.outputs.FacebookClientSecretKeyContainer }}
         value: ${{ secrets.FACEBOOK_CLIENT_SECRET }}
+        tenant: ${{ steps.parse_appsettings.outputs.Tenant }}
+        clientId: ${{ env.B2C_SERVICE_PRINCIPAL_CLIENT_ID }}
+        clientSecret: ${{ secrets.B2C_SERVICE_PRINCIPAL_CLIENT_SECRET }}
+    - name: Upload Google Client Secret
+      uses: azure-ad-b2c/deploy-trustframework-keyset-secret@v1
+      with:
+        name: ${{ steps.parse_appsettings.outputs.GoogleClientSecretKeyContainer }}
+        value: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        tenant: ${{ steps.parse_appsettings.outputs.Tenant }}
+        clientId: ${{ env.B2C_SERVICE_PRINCIPAL_CLIENT_ID }}
+        clientSecret: ${{ secrets.B2C_SERVICE_PRINCIPAL_CLIENT_SECRET }}
+    - name: Upload Microsoft Account Client Secret
+      uses: azure-ad-b2c/deploy-trustframework-keyset-secret@v1
+      with:
+        name: ${{ steps.parse_appsettings.outputs.MicrosoftAccountClientSecretKeyContainer }}
+        value: ${{ secrets.MICROSOFTACCOUNT_CLIENT_SECRET }}
         tenant: ${{ steps.parse_appsettings.outputs.Tenant }}
         clientId: ${{ env.B2C_SERVICE_PRINCIPAL_CLIENT_ID }}
         clientSecret: ${{ secrets.B2C_SERVICE_PRINCIPAL_CLIENT_SECRET }}

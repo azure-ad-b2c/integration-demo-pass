@@ -14,10 +14,9 @@
                         <button type="button" class="set"><img src="~/img/main/icon_user_set.png" alt="환경설정" /> /></button>
                     </div>
                     <div class="info">
-                        @* TODO: Populate B2C User details *@
-                        <div class="name"><em>홍길동</em>님</div>
-                        <div class="co">비즈인포상사 소속</div>
-                        <div class="phone">010-1234-5678</div>
+                        <div class="name">@ViewBag.Name</div>
+                        <div class="co">@ViewBag.Email</div>
+                        <div class="phone">@ViewBag.Phone</div>
                     </div>
                 </div>
                 <ul>

@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using B2C.PASSDemo.Authentication;
 using B2C.PASSDemo.Middleware;
+using System.Globalization;
 
 namespace B2C.PASSDemo
 {
@@ -72,6 +75,12 @@ namespace B2C.PASSDemo
                     options.SaveTokens = true; // Save the ID token for the sign out request (it is added automatically)
                     options.Events = new OpenIdConnectEvents
                     {
+                        OnRedirectToIdentityProvider = context =>
+                        {
+                            var locale = context.HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture.Name;
+                            context.ProtocolMessage.UiLocales = locale;
+                            return Task.CompletedTask;
+                        },
                         OnAccessDenied = context =>
                         {
                             if (context.Request.ContainsOidcErrorDescriptionContent(AuthConfig.ErrorCodes.CancelledByUser) ||
@@ -90,6 +99,8 @@ namespace B2C.PASSDemo
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)//, IWebHostEnvironment env)
         {
+            var supportedCultures = Configuration.GetSection("SupportedCultures").Get<string[]>();
+
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -100,13 +111,29 @@ namespace B2C.PASSDemo
                 app.UseHsts();
             }
 
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(supportedCultures.First()),
+                SupportedCultures = supportedCultures.Select(c => new CultureInfo(c)).ToList(),
+                SupportedUICultures = supportedCultures.Select(c => new CultureInfo(c)).ToList()
+            });
+            app.UseAutomaticCultureCookieCreation();
+
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", Configuration.GetValue<string>(AuthConfig.AuthCorsOriginSettingName));
+                    ctx.Context.Response.Headers.Append("Access-Control-Allow-Headers", "*");
+                    ctx.Context.Response.Headers.Append("Access-Control-Allow-Methods", "*");
+                }
+            });
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseCors(AuthConfig.AuthTemplateCorsPolicyName);
+            app.UseCors();
             app.UseAbsoluteUrlRewriting();
 
             app.UseEndpoints(endpoints =>

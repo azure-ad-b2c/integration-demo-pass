@@ -1,20 +1,22 @@
 ﻿<!DOCTYPE html>
-<html lang="ko">
+
+@{
+    var requestCulture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>();
+}
+
+<html lang="@requestCulture.RequestCulture.UICulture.TwoLetterISOLanguageName">
     <head>
     <title>carmanager</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <link rel="preload" as="style" onload="this.rel='stylesheet'" href="~/css/reset.css">
-    <link rel="preload" as="style" onload="this.rel='stylesheet'" href="~/css/animate.css">
-    <link rel="preload" as="style" onload="this.rel='stylesheet'" href="~/css/font.css">
-    <link rel="preload" as="style" onload="this.rel='stylesheet'" href="~/css/common.css">
-    <link rel="preload" as="style" onload="this.rel='stylesheet'" href="~/css/main.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="~/css/reset.css">
+    <link rel="stylesheet" href="~/css/animate.css">
+    <link rel="stylesheet" href="~/css/font.css">
+    <link rel="stylesheet" href="~/css/common.css">
+    <link rel="stylesheet" href="~/css/main.css">
+
     @RenderSection("styles", required: false)
 </head>
 <body>
@@ -33,7 +35,7 @@
                 <li><a href="#g">수출조회</a></li>
             </ul>
             <ul class="jnb">
-                <li><a href="#g">로그인</a></li>
+                <li><a asp-controller="Home" asp-action="SignIn">로그인</a></li>
                 <li><a href="#g">즐겨찾기 추가</a></li>
             </ul>
         </div>
@@ -66,13 +68,13 @@
                 <a href="#g">개인정보취급방침</a>
                 <a href="#g">사이트맵</a>
                 <a href="#g">원격지원요청</a>
+                <a href="@(Context.Request.Path)?culture=en-US">USA</a>
+                <a href="@(Context.Request.Path)?culture=ko-KR">한국</a>
             </div>
         </div><!-- // footer -->
     </div><!-- // footer_wrap -->
 
 </div><!-- // wrapper -->
-
-@RenderSection("scripts", required: false)
 
 </body>
 </html>

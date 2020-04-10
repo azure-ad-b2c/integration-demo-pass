@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.Extensions.Configuration;
 using B2C.PASSDemo.Authentication;
 using B2C.PASSDemo.Middleware;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 namespace B2C.PASSDemo.Controllers
 {
@@ -44,9 +46,11 @@ namespace B2C.PASSDemo.Controllers
         [Authorize]
         public IActionResult Confirmed()
         {
-            ViewData["GivenName"] = User.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value ?? "";
-            ViewData["Surname"] = User.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value ?? "";
-            ViewData["Claims"] = User.Claims ?? Enumerable.Empty<Claim>();
+            ViewBag.Name = User.Claims?.FirstOrDefault(c => c.Type == "name")?.Value ?? "";
+            ViewBag.Email = User.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value ?? "";
+            ViewBag.Phone = User.Claims?.FirstOrDefault(c => c.Type == "phone_number")?.Value ?? "";
+            ViewBag.Phone = TryGetProperlyFormattedNumber(ViewBag.Phone) ?? ViewBag.Phone;
+            ViewBag.Claims = User.Claims ?? Enumerable.Empty<Claim>();
             return View();
         }
 
@@ -70,8 +74,34 @@ namespace B2C.PASSDemo.Controllers
 
         [EnableCors(AuthConfig.AuthTemplateCorsPolicyName)]
         [EnableAbsoluteUrlRewriting]
-        public IActionResult LoginTemplate() {
+        public IActionResult LoginTemplate()
+        {
             return View();
+        }
+
+        private string TryGetProperlyFormattedNumber(string internationNumber)
+        {
+            if (string.IsNullOrWhiteSpace(internationNumber))
+            {
+                return null;
+            }
+            var phoneUtil = PhoneNumbers.PhoneNumberUtil.GetInstance();
+            var culture = Request.HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.UICulture;
+
+            try
+            {
+                var region = culture.IsNeutralCulture ? null : new RegionInfo(culture.LCID);
+                var number = phoneUtil.Parse(internationNumber, null);
+                var isLocalNumber = region == null ? false : phoneUtil.IsValidNumberForRegion(number, region.TwoLetterISORegionName);
+                var numberFormat = isLocalNumber
+                    ? PhoneNumbers.PhoneNumberFormat.NATIONAL
+                    : PhoneNumbers.PhoneNumberFormat.INTERNATIONAL;
+                return phoneUtil.Format(number, numberFormat);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
