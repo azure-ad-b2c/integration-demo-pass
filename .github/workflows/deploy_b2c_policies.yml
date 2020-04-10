@@ -49,6 +49,7 @@ jobs:
         PassTokenEndpoint: "Environments[0].PolicySettings.PassTokenEndpoint"
         PassClaimsEndpoint: "Environments[0].PolicySettings.PassClaimsEndpoint"
         PassClaimsDecryptionEndpoint: "Environments[0].PolicySettings.PassClaimsDecryptionEndpoint"
+        CustomTemplateUrl: "Environments[0].PolicySettings.CustomTemplateUrl"
 
     - name: Replace tokens in B2C policies
       uses: cschleiden/replace-tokens@v1.0
@@ -79,6 +80,7 @@ jobs:
         PassTokenEndpoint: ${{ steps.parse_appsettings.outputs.PassTokenEndpoint }}
         PassClaimsEndpoint: ${{ steps.parse_appsettings.outputs.PassClaimsEndpoint }}
         PassClaimsDecryptionEndpoint: ${{ steps.parse_appsettings.outputs.PassClaimsDecryptionEndpoint }}
+        CustomTemplateUrl: ${{ steps.parse_appsettings.outputs.CustomTemplateUrl }}
         
     - name: Upload Facebook Client Secret
       uses: azure-ad-b2c/deploy-trustframework-keyset-secret@v1
