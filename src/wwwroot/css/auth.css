@@ -35,8 +35,8 @@
     transform: translateX(-5px);
 }
 
-html[lang="ko"] .layer_login .social .options::after {
-    content: "또는"
+html[lang|="ko"] .layer_login .social .options::after {
+    content: "또는";
 }
 
 .layer_login .social .options .accountButton {
