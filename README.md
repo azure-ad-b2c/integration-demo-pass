@@ -15,13 +15,26 @@ You can find the demo site at: https://b2c-pass-demo.azurewebsites.net
 
 ## Identity Experience Framework Policies
 
-In the `policies/` folder you'll find custom policy definitions for integration with PASS:
+In the `policies/` folder you'll find custom policy definitions for integration with PASS as an external identity provider.
 
 ### PASS as an authentication provider
 
 The policies demonstrate how to connect with PASS as an identity provider in a similar way to a connection to social login services. Azure AD B2C authenticates with PASS using the OAuth2 protocol. PASS authenticates the user by prompting them for a biometric or pin-based challenge and consent approval on their mobile device which has the PASS application installed.
 
+Claims returned by PASS are encrypted. In this sample, a REST technical profile is used in the policy to call an API which performs decryption of the claims using the PASS claims decryption scheme.
+
+The phone number returned by PASS is in the local format for Korea. In this sample, the `ConvertStringToPhoneNumberClaim` claims transformation is used to convert the phone number to the international format with the "+" prefix.
+
 This scenario is based on the [`SocialAndLocalAccountsWithMfa` starter pack](https://github.com/Azure-Samples/active-directory-b2c-custom-policy-starterpack/tree/master/SocialAndLocalAccountsWithMfa) although local account authentication has been removed in this sample.
+
+### Localization
+
+As PASS is a Korean service, you'll find some sample patterns in this codebase for localization with Azure AD B2C. In the demo website, you can request UI localization by [appending the `culture` parameter](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/localization?view=aspnetcore-3.1#implement-a-strategy-to-select-the-languageculture-for-each-request). E.g.:
+```
+https://b2c-pass-demo.azurewebsites.net/?culture=en-US
+https://b2c-pass-demo.azurewebsites.net/?culture=ko-KR
+```
+Note that the demo website does not have English language assets, however this culture setting will be passed on to Azure AD B2C using the [`ui_locales` parameter](https://docs.microsoft.com/en-us/azure/active-directory-b2c/custom-policy-ui-customization) and the content rendered by Azure AD B2C will be localized.
 
 ## Deployment
 
